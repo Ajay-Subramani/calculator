@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <input type="text" name="display" readonly>
+            <div>
+                <input type="button" value="AC" onclick="clearDisplay()">
+                <input type="button" value="DE" onclick="deleteLast()">
+                <input type="button" value="." onclick="appendValue('.')">
+                <input type="button" value="/" onclick="setOperation('/')">
+            </div>
+            <div>
+                <input type="button" value="7" onclick="appendValue('7')">
+                <input type="button" value="8" onclick="appendValue('8')">
+                <input type="button" value="9" onclick="appendValue('9')">
+                <input type="button" value="*" onclick="setOperation('*')">
+            </div>
+            <div>
+                <input type="button" value="4" onclick="appendValue('4')">
+                <input type="button" value="5" onclick="appendValue('5')">
+                <input type="button" value="6" onclick="appendValue('6')">
+                <input type="button" value="-" onclick="setOperation('-')">
+            </div>
+            <div>
+                <input type="button" value="1" onclick="appendValue('1')">
+                <input type="button" value="2" onclick="appendValue('2')">
+                <input type="button" value="3" onclick="appendValue('3')">
+                <input type="button" value="+" onclick="setOperation('+')">
+            </div>
+            <div>
+                <input type="button" value="0" onclick="appendValue('0')">
+                <input type="button" value="00" onclick="appendValue('00')">
+                <input type="button" value="%" onclick="setOperation('%')">
+                <input type="button" value="=" onclick="calculate()">
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentInput = '';
+        let firstValue = null;
+        let operation = null;
+
+        // Clear the display
+        function clearDisplay() {
+            currentInput = '';
+            firstValue = null;
+            operation = null;
+            document.querySelector('input[name="display"]').value = '';
+        }
+
+        // Delete the last character from the input
+        function deleteLast() {
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay();
+        }
+
+        // Append a number or value to the input
+        function appendValue(value) {
+            currentInput += value;
+            updateDisplay();
+        }
+
+        // Set the operation (e.g. +, -, *, /, %)
+        function setOperation(op) {
+            if (currentInput !== '') {
+                firstValue = currentInput;
+                operation = op;
+                currentInput = '';
+                updateDisplay();
+            }
+        }
+
+        // Update the display to show the first value, operation, and current input
+        function updateDisplay() {
+            let displayValue = firstValue ? firstValue + ' ' + (operation ? operation + ' ' : '') : '';
+            displayValue += currentInput;
+            document.querySelector('input[name="display"]').value = displayValue;
+        }
+
+        // Perform the calculation when '=' is pressed
+        function calculate() {
+            if (firstValue !== null && operation && currentInput !== '') {
+                let result;
+
+                // Handle percentage operation separately
+                if (operation === '%') {
+                    result = (parseFloat(firstValue) * parseFloat(currentInput)) / 100;
+                } else {
+                    result = eval(`${firstValue}${operation}${currentInput}`);
+                }
+
+                // Show the result and reset input
+                document.querySelector('input[name="display"]').value = result;
+                currentInput = '';
+                firstValue = null;
+                operation = null;
+            }
+        }
+    </script>
+</body>
+</html>
+

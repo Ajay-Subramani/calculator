@@ -43,68 +43,7 @@
         </div>
     </div>
     
-    <script>
-        let currentInput = '';
-        let firstValue = null;
-        let operation = null;
-
-        // Clear the display
-        function clearDisplay() {
-            currentInput = '';
-            firstValue = null;
-            operation = null;
-            document.querySelector('input[name="display"]').value = '';
-        }
-
-        // Delete the last character from the input
-        function deleteLast() {
-            currentInput = currentInput.slice(0, -1);
-            updateDisplay();
-        }
-
-        // Append a number or value to the input
-        function appendValue(value) {
-            currentInput += value;
-            updateDisplay();
-        }
-
-        // Set the operation (e.g. +, -, *, /, %)
-        function setOperation(op) {
-            if (currentInput !== '') {
-                firstValue = currentInput;
-                operation = op;
-                currentInput = '';
-                updateDisplay();
-            }
-        }
-
-        // Update the display to show the first value, operation, and current input
-        function updateDisplay() {
-            let displayValue = firstValue ? firstValue + ' ' + (operation ? operation + ' ' : '') : '';
-            displayValue += currentInput;
-            document.querySelector('input[name="display"]').value = displayValue;
-        }
-
-        // Perform the calculation when '=' is pressed
-        function calculate() {
-            if (firstValue !== null && operation && currentInput !== '') {
-                let result;
-
-                // Handle percentage operation separately
-                if (operation === '%') {
-                    result = (parseFloat(firstValue) * parseFloat(currentInput)) / 100;
-                } else {
-                    result = eval(`${firstValue}${operation}${currentInput}`);
-                }
-
-                // Show the result and reset input
-                document.querySelector('input[name="display"]').value = result;
-                currentInput = '';
-                firstValue = null;
-                operation = null;
-            }
-        }
-    </script>
+    <script src="calc.js"></script>
 </body>
 </html>
 
